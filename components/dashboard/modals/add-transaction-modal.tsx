@@ -193,7 +193,7 @@ export function AddTransactionModal({ open, onOpenChange }: AddTransactionModalP
             <div className="space-y-2">
               <Label>Stock</Label>
               <div className="relative">
-                <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+                <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                 <Input
                   placeholder="Search by ticker or name..."
                   value={searchQuery}
@@ -202,7 +202,7 @@ export function AddTransactionModal({ open, onOpenChange }: AddTransactionModalP
                 />
               </div>
               {searchQuery && (
-                <div className="max-h-40 overflow-y-auto rounded-lg border border-slate-200 bg-white">
+                <div className="max-h-40 overflow-y-auto rounded-lg border border-border bg-card">
                   {filteredStocks.map((stock) => (
                     <button
                       key={stock.ticker}
@@ -211,13 +211,13 @@ export function AddTransactionModal({ open, onOpenChange }: AddTransactionModalP
                         handleStockSelect(stock.ticker)
                         setSearchQuery("")
                       }}
-                      className="flex w-full items-center justify-between px-3 py-2 text-left hover:bg-slate-50"
+                      className="flex w-full items-center justify-between px-3 py-2 text-left hover:bg-muted/50"
                     >
                       <div>
-                        <span className="font-semibold text-slate-900">{stock.ticker}</span>
-                        <span className="ml-2 text-sm text-slate-500">{stock.name}</span>
+                        <span className="font-semibold text-foreground">{stock.ticker}</span>
+                        <span className="ml-2 text-sm text-muted-foreground">{stock.name}</span>
                       </div>
-                      <span className="text-sm text-slate-600">
+                      <span className="text-sm text-muted-foreground">
                         {stock.price.toLocaleString()} VND
                       </span>
                     </button>
@@ -225,21 +225,21 @@ export function AddTransactionModal({ open, onOpenChange }: AddTransactionModalP
                 </div>
               )}
               {selectedStock && (
-                <div className="flex items-center justify-between rounded-lg bg-slate-50 px-3 py-2">
+                <div className="flex items-center justify-between rounded-lg bg-muted px-3 py-2">
                   <div className="flex items-center gap-2">
-                    <div className="flex h-8 w-8 items-center justify-center rounded bg-slate-900 text-xs font-bold text-white">
+                    <div className="flex h-8 w-8 items-center justify-center rounded bg-primary text-xs font-bold text-primary-foreground">
                       {selectedStock.slice(0, 2)}
                     </div>
                     <div>
-                      <p className="font-semibold text-slate-900">{selectedStock}</p>
-                      <p className="text-sm text-slate-500">{selectedStockData?.name}</p>
+                      <p className="font-semibold text-foreground">{selectedStock}</p>
+                      <p className="text-sm text-muted-foreground">{selectedStockData?.name}</p>
                     </div>
                   </div>
                   <Button
                     variant="ghost"
                     size="sm"
                     onClick={() => setSelectedStock("")}
-                    className="text-slate-400 hover:text-slate-600"
+                    className="text-muted-foreground hover:text-foreground"
                   >
                     Change
                   </Button>
@@ -283,21 +283,21 @@ export function AddTransactionModal({ open, onOpenChange }: AddTransactionModalP
 
             {/* Summary */}
             {quantity && price && (
-              <div className="rounded-lg bg-slate-50 p-4">
-                <h4 className="mb-3 font-medium text-slate-900">Transaction Summary</h4>
+              <div className="rounded-lg bg-muted p-4">
+                <h4 className="mb-3 font-medium text-foreground">Transaction Summary</h4>
                 <div className="space-y-2 text-sm">
                   <div className="flex justify-between">
-                    <span className="text-slate-500">Subtotal</span>
-                    <span className="text-slate-700">{subtotal.toLocaleString()} VND</span>
+                    <span className="text-muted-foreground">Subtotal</span>
+                    <span className="text-foreground">{subtotal.toLocaleString()} VND</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-slate-500">Fees ({fees}%)</span>
-                    <span className="text-slate-700">{feeAmount.toLocaleString()} VND</span>
+                    <span className="text-muted-foreground">Fees ({fees}%)</span>
+                    <span className="text-foreground">{feeAmount.toLocaleString()} VND</span>
                   </div>
-                  <div className="border-t border-slate-200 pt-2">
+                  <div className="border-t border-border pt-2">
                     <div className="flex justify-between font-semibold">
-                      <span className="text-slate-700">Total</span>
-                      <span className={transactionType === "buy" ? "text-rose-600" : "text-emerald-600"}>
+                      <span className="text-foreground">Total</span>
+                      <span className={transactionType === "buy" ? "text-rose-600 dark:text-rose-400" : "text-emerald-600 dark:text-emerald-400"}>
                         {transactionType === "buy" ? "-" : "+"}{total.toLocaleString()} VND
                       </span>
                     </div>
@@ -414,10 +414,10 @@ export function AddTransactionModal({ open, onOpenChange }: AddTransactionModalP
 
             {/* Total Dividend */}
             {dividendAmount && quantity && (
-              <div className="rounded-lg bg-emerald-50 p-4">
+              <div className="rounded-lg bg-emerald-50 dark:bg-emerald-900/30 p-4">
                 <div className="flex items-center justify-between">
-                  <span className="font-medium text-slate-700">Total Dividend</span>
-                  <span className="text-xl font-semibold text-emerald-600">
+                  <span className="font-medium text-foreground">Total Dividend</span>
+                  <span className="text-xl font-semibold text-emerald-600 dark:text-emerald-400">
                     +{(parseFloat(dividendAmount) * parseFloat(quantity)).toLocaleString()} VND
                   </span>
                 </div>
@@ -435,8 +435,8 @@ export function AddTransactionModal({ open, onOpenChange }: AddTransactionModalP
                 className={cn(
                   "flex items-center justify-center gap-2 rounded-lg border-2 py-3 font-medium transition-colors",
                   cashType === "deposit"
-                    ? "border-emerald-500 bg-emerald-50 text-emerald-700"
-                    : "border-slate-200 bg-white text-slate-600 hover:border-slate-300"
+                    ? "border-emerald-500 bg-emerald-50 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400"
+                    : "border-border bg-card text-muted-foreground hover:border-muted-foreground"
                 )}
               >
                 <ArrowUpRight className="h-5 w-5" />
@@ -448,8 +448,8 @@ export function AddTransactionModal({ open, onOpenChange }: AddTransactionModalP
                 className={cn(
                   "flex items-center justify-center gap-2 rounded-lg border-2 py-3 font-medium transition-colors",
                   cashType === "withdrawal"
-                    ? "border-rose-500 bg-rose-50 text-rose-700"
-                    : "border-slate-200 bg-white text-slate-600 hover:border-slate-300"
+                    ? "border-rose-500 bg-rose-50 text-rose-700 dark:bg-rose-900/30 dark:text-rose-400"
+                    : "border-border bg-card text-muted-foreground hover:border-muted-foreground"
                 )}
               >
                 <ArrowDownRight className="h-5 w-5" />
@@ -509,15 +509,15 @@ export function AddTransactionModal({ open, onOpenChange }: AddTransactionModalP
             {cashAmount && (
               <div className={cn(
                 "rounded-lg p-4",
-                cashType === "deposit" ? "bg-emerald-50" : "bg-rose-50"
+                cashType === "deposit" ? "bg-emerald-50 dark:bg-emerald-900/30" : "bg-rose-50 dark:bg-rose-900/30"
               )}>
                 <div className="flex items-center justify-between">
-                  <span className="font-medium text-slate-700">
+                  <span className="font-medium text-foreground">
                     {cashType === "deposit" ? "Deposit Amount" : "Withdrawal Amount"}
                   </span>
                   <span className={cn(
                     "text-xl font-semibold",
-                    cashType === "deposit" ? "text-emerald-600" : "text-rose-600"
+                    cashType === "deposit" ? "text-emerald-600 dark:text-emerald-400" : "text-rose-600 dark:text-rose-400"
                   )}>
                     {cashType === "deposit" ? "+" : "-"}{parseFloat(cashAmount).toLocaleString()} VND
                   </span>
@@ -531,7 +531,7 @@ export function AddTransactionModal({ open, onOpenChange }: AddTransactionModalP
           <Button variant="outline" onClick={() => onOpenChange(false)}>
             Cancel
           </Button>
-          <Button onClick={handleSubmit} className="bg-slate-900 text-white hover:bg-slate-800">
+          <Button onClick={handleSubmit}>
             Add Transaction
           </Button>
         </DialogFooter>

@@ -131,33 +131,33 @@ export function RebalanceModal({ open, onOpenChange }: RebalanceModalProps) {
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-[800px]">
         <DialogHeader>
-          <DialogTitle className="flex items-center gap-2 text-xl font-semibold text-slate-900">
+          <DialogTitle className="flex items-center gap-2 text-xl font-semibold text-foreground">
             <RefreshCcw className="h-5 w-5" />
             Portfolio Rebalance
           </DialogTitle>
-          <DialogDescription className="text-slate-500">
+          <DialogDescription className="text-muted-foreground">
             Adjust your portfolio allocation to match your target weights
           </DialogDescription>
         </DialogHeader>
 
         {/* Summary Stats */}
         <div className="mt-4 grid grid-cols-3 gap-4">
-          <div className="rounded-lg bg-slate-50 p-3">
-            <p className="text-sm text-slate-500">Portfolio Value</p>
-            <p className="text-lg font-semibold text-slate-900">1.5B VND</p>
+          <div className="rounded-lg bg-muted p-3">
+            <p className="text-sm text-muted-foreground">Portfolio Value</p>
+            <p className="text-lg font-semibold text-foreground">1.5B VND</p>
           </div>
-          <div className="rounded-lg bg-slate-50 p-3">
-            <p className="text-sm text-slate-500">Tracking Error</p>
-            <p className="text-lg font-semibold text-amber-600">2.3%</p>
+          <div className="rounded-lg bg-muted p-3">
+            <p className="text-sm text-muted-foreground">Tracking Error</p>
+            <p className="text-lg font-semibold text-amber-600 dark:text-amber-400">2.3%</p>
           </div>
           <div className={cn(
             "rounded-lg p-3",
-            isValidAllocation ? "bg-emerald-50" : "bg-rose-50"
+            isValidAllocation ? "bg-emerald-50 dark:bg-emerald-900/30" : "bg-rose-50 dark:bg-rose-900/30"
           )}>
-            <p className="text-sm text-slate-500">Total Allocation</p>
+            <p className="text-sm text-muted-foreground">Total Allocation</p>
             <p className={cn(
               "text-lg font-semibold",
-              isValidAllocation ? "text-emerald-600" : "text-rose-600"
+              isValidAllocation ? "text-emerald-600 dark:text-emerald-400" : "text-rose-600 dark:text-rose-400"
             )}>
               {totalWeight.toFixed(1)}%
               {!isValidAllocation && (
@@ -170,20 +170,20 @@ export function RebalanceModal({ open, onOpenChange }: RebalanceModalProps) {
         </div>
 
         <Tabs value={rebalanceType} onValueChange={setRebalanceType} className="mt-4">
-          <TabsList className="grid w-full grid-cols-2 bg-slate-100">
-            <TabsTrigger value="holdings" className="data-[state=active]:bg-white">
+          <TabsList className="grid w-full grid-cols-2">
+            <TabsTrigger value="holdings">
               By Holdings
             </TabsTrigger>
-            <TabsTrigger value="sector" className="data-[state=active]:bg-white">
+            <TabsTrigger value="sector">
               By Sector
             </TabsTrigger>
           </TabsList>
 
           <TabsContent value="holdings" className="mt-4">
-            <div className="max-h-80 overflow-y-auto rounded-lg border border-slate-200">
+            <div className="max-h-80 overflow-y-auto rounded-lg border border-border">
               <Table>
                 <TableHeader>
-                  <TableRow className="bg-slate-50">
+                  <TableRow className="bg-muted/50">
                     <TableHead className="w-8"></TableHead>
                     <TableHead className="text-xs font-medium">Holding</TableHead>
                     <TableHead className="text-center text-xs font-medium">Current %</TableHead>
@@ -195,7 +195,7 @@ export function RebalanceModal({ open, onOpenChange }: RebalanceModalProps) {
                   {holdings.map((holding) => {
                     const diff = holding.targetWeight - holding.currentWeight
                     return (
-                      <TableRow key={holding.ticker} className="hover:bg-slate-50">
+                      <TableRow key={holding.ticker} className="hover:bg-muted/50">
                         <TableCell>
                           <Button
                             variant="ghost"
@@ -205,25 +205,25 @@ export function RebalanceModal({ open, onOpenChange }: RebalanceModalProps) {
                             disabled={holding.ticker === "CASH"}
                           >
                             {holding.locked ? (
-                              <Lock className="h-3 w-3 text-slate-400" />
+                              <Lock className="h-3 w-3 text-muted-foreground" />
                             ) : (
-                              <Unlock className="h-3 w-3 text-slate-300" />
+                              <Unlock className="h-3 w-3 text-muted-foreground/50" />
                             )}
                           </Button>
                         </TableCell>
                         <TableCell>
                           <div className="flex items-center gap-2">
-                            <div className="flex h-7 w-7 items-center justify-center rounded bg-slate-900 text-xs font-bold text-white">
+                            <div className="flex h-7 w-7 items-center justify-center rounded bg-primary text-xs font-bold text-primary-foreground">
                               {holding.ticker.slice(0, 2)}
                             </div>
                             <div>
-                              <p className="font-medium text-slate-900">{holding.ticker}</p>
-                              <p className="text-xs text-slate-500">{formatCurrency(holding.value)}</p>
+                              <p className="font-medium text-foreground">{holding.ticker}</p>
+                              <p className="text-xs text-muted-foreground">{formatCurrency(holding.value)}</p>
                             </div>
                           </div>
                         </TableCell>
                         <TableCell className="text-center">
-                          <span className="text-sm text-slate-600">{holding.currentWeight.toFixed(1)}%</span>
+                          <span className="text-sm text-muted-foreground">{holding.currentWeight.toFixed(1)}%</span>
                         </TableCell>
                         <TableCell>
                           <div className="flex items-center gap-2">
@@ -250,10 +250,10 @@ export function RebalanceModal({ open, onOpenChange }: RebalanceModalProps) {
                             variant="secondary"
                             className={cn(
                               Math.abs(diff) < 0.5
-                                ? "bg-slate-100 text-slate-600"
+                                ? "bg-muted text-muted-foreground"
                                 : diff > 0
-                                ? "bg-emerald-100 text-emerald-700"
-                                : "bg-rose-100 text-rose-700"
+                                ? "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400"
+                                : "bg-rose-100 text-rose-700 dark:bg-rose-900/30 dark:text-rose-400"
                             )}
                           >
                             {diff > 0 ? "+" : ""}{diff.toFixed(1)}%
@@ -296,13 +296,13 @@ export function RebalanceModal({ open, onOpenChange }: RebalanceModalProps) {
                 return (
                   <div key={sector.sector} className="space-y-2">
                     <div className="flex items-center justify-between">
-                      <span className="font-medium text-slate-700">{sector.sector}</span>
+                      <span className="font-medium text-foreground">{sector.sector}</span>
                       <div className="flex items-center gap-4">
-                        <span className="text-sm text-slate-500">
+                        <span className="text-sm text-muted-foreground">
                           {sector.currentWeight.toFixed(1)}%
                         </span>
-                        <ArrowRight className="h-4 w-4 text-slate-400" />
-                        <span className="font-medium text-slate-700">
+                        <ArrowRight className="h-4 w-4 text-muted-foreground" />
+                        <span className="font-medium text-foreground">
                           {sector.targetWeight.toFixed(1)}%
                         </span>
                         <Badge
@@ -310,23 +310,23 @@ export function RebalanceModal({ open, onOpenChange }: RebalanceModalProps) {
                           className={cn(
                             "w-16 justify-center",
                             Math.abs(diff) < 0.5
-                              ? "bg-slate-100 text-slate-600"
+                              ? "bg-muted text-muted-foreground"
                               : diff > 0
-                              ? "bg-emerald-100 text-emerald-700"
-                              : "bg-rose-100 text-rose-700"
+                              ? "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400"
+                              : "bg-rose-100 text-rose-700 dark:bg-rose-900/30 dark:text-rose-400"
                           )}
                         >
                           {diff > 0 ? "+" : ""}{diff.toFixed(1)}%
                         </Badge>
                       </div>
                     </div>
-                    <div className="relative h-2 rounded-full bg-slate-100">
+                    <div className="relative h-2 rounded-full bg-muted">
                       <div
-                        className="absolute h-2 rounded-full bg-slate-300"
+                        className="absolute h-2 rounded-full bg-muted-foreground/40"
                         style={{ width: `${sector.currentWeight}%` }}
                       />
                       <div
-                        className="absolute top-0 h-2 w-0.5 bg-slate-900"
+                        className="absolute top-0 h-2 w-0.5 bg-foreground"
                         style={{ left: `${sector.targetWeight}%` }}
                       />
                     </div>
@@ -341,40 +341,40 @@ export function RebalanceModal({ open, onOpenChange }: RebalanceModalProps) {
         {showSuggestions && suggestedTrades.length > 0 && (
           <div className="mt-6">
             <div className="mb-3 flex items-center gap-2">
-              <AlertTriangle className="h-4 w-4 text-amber-500" />
-              <h4 className="font-medium text-slate-900">Suggested Trades</h4>
+              <AlertTriangle className="h-4 w-4 text-amber-500 dark:text-amber-400" />
+              <h4 className="font-medium text-foreground">Suggested Trades</h4>
             </div>
-            <div className="rounded-lg border border-amber-200 bg-amber-50 p-4">
+            <div className="rounded-lg border border-amber-200 bg-amber-50 dark:border-amber-900/50 dark:bg-amber-900/30 p-4">
               <div className="space-y-2">
                 {suggestedTrades.map((trade) => (
                   <div
                     key={trade.ticker}
-                    className="flex items-center justify-between rounded bg-white px-3 py-2"
+                    className="flex items-center justify-between rounded bg-card px-3 py-2"
                   >
                     <div className="flex items-center gap-3">
                       <Badge
                         className={cn(
                           trade.action === "BUY"
-                            ? "bg-emerald-100 text-emerald-700"
-                            : "bg-rose-100 text-rose-700"
+                            ? "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400"
+                            : "bg-rose-100 text-rose-700 dark:bg-rose-900/30 dark:text-rose-400"
                         )}
                       >
                         {trade.action}
                       </Badge>
-                      <span className="font-medium text-slate-900">{trade.ticker}</span>
+                      <span className="font-medium text-foreground">{trade.ticker}</span>
                     </div>
                     <div className="flex items-center gap-4">
-                      <span className="text-sm text-slate-600">
+                      <span className="text-sm text-muted-foreground">
                         ~{trade.shares.toLocaleString()} shares
                       </span>
-                      <span className="font-medium text-slate-900">
+                      <span className="font-medium text-foreground">
                         {formatCurrency(trade.tradeValue)} VND
                       </span>
                     </div>
                   </div>
                 ))}
               </div>
-              <p className="mt-3 text-xs text-slate-500">
+              <p className="mt-3 text-xs text-muted-foreground">
                 * These are suggested trades to achieve your target allocation. Review and adjust as needed.
               </p>
             </div>
@@ -388,7 +388,6 @@ export function RebalanceModal({ open, onOpenChange }: RebalanceModalProps) {
           <Button
             onClick={() => setShowSuggestions(true)}
             disabled={!isValidAllocation}
-            className="bg-slate-900 text-white hover:bg-slate-800"
           >
             Generate Trades
           </Button>

@@ -149,8 +149,8 @@ export function ImportModal({ open, onOpenChange }: ImportModalProps) {
     <Dialog open={open} onOpenChange={handleClose}>
       <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-[700px]">
         <DialogHeader>
-          <DialogTitle className="text-xl font-semibold text-slate-900">Import Data</DialogTitle>
-          <DialogDescription className="text-slate-500">
+          <DialogTitle className="text-xl font-semibold text-foreground">Import Data</DialogTitle>
+          <DialogDescription className="text-muted-foreground">
             Import transactions, holdings, or cash flows from CSV or Excel files
           </DialogDescription>
         </DialogHeader>
@@ -163,10 +163,10 @@ export function ImportModal({ open, onOpenChange }: ImportModalProps) {
                 className={cn(
                   "flex h-8 w-8 items-center justify-center rounded-full text-sm font-medium",
                   step === s
-                    ? "bg-slate-900 text-white"
+                    ? "bg-primary text-primary-foreground"
                     : ["upload", "mapping", "preview", "complete"].indexOf(step) > index
-                    ? "bg-emerald-500 text-white"
-                    : "bg-slate-100 text-slate-500"
+                    ? "bg-emerald-500 text-white dark:bg-emerald-600"
+                    : "bg-muted text-muted-foreground"
                 )}
               >
                 {["upload", "mapping", "preview", "complete"].indexOf(step) > index ? (
@@ -180,15 +180,15 @@ export function ImportModal({ open, onOpenChange }: ImportModalProps) {
                   className={cn(
                     "mx-2 h-0.5 w-16",
                     ["upload", "mapping", "preview", "complete"].indexOf(step) > index
-                      ? "bg-emerald-500"
-                      : "bg-slate-200"
+                      ? "bg-emerald-500 dark:bg-emerald-600"
+                      : "bg-border"
                   )}
                 />
               )}
             </div>
           ))}
         </div>
-        <div className="mt-2 flex justify-between text-xs text-slate-500">
+        <div className="mt-2 flex justify-between text-xs text-muted-foreground">
           <span>Upload</span>
           <span>Map Columns</span>
           <span>Preview</span>
@@ -201,14 +201,14 @@ export function ImportModal({ open, onOpenChange }: ImportModalProps) {
             <div className="space-y-4">
               {/* Import Type */}
               <Tabs value={importType} onValueChange={setImportType}>
-                <TabsList className="grid w-full grid-cols-3 bg-slate-100">
-                  <TabsTrigger value="transactions" className="data-[state=active]:bg-white">
+                <TabsList className="grid w-full grid-cols-3">
+                  <TabsTrigger value="transactions">
                     Transactions
                   </TabsTrigger>
-                  <TabsTrigger value="holdings" className="data-[state=active]:bg-white">
+                  <TabsTrigger value="holdings">
                     Holdings
                   </TabsTrigger>
-                  <TabsTrigger value="cashflows" className="data-[state=active]:bg-white">
+                  <TabsTrigger value="cashflows">
                     Cash Flows
                   </TabsTrigger>
                 </TabsList>
@@ -222,20 +222,20 @@ export function ImportModal({ open, onOpenChange }: ImportModalProps) {
                 className={cn(
                   "relative rounded-lg border-2 border-dashed p-8 text-center transition-colors",
                   isDragging
-                    ? "border-slate-400 bg-slate-50"
+                    ? "border-muted-foreground bg-muted"
                     : file
-                    ? "border-emerald-300 bg-emerald-50"
-                    : "border-slate-300 bg-white hover:border-slate-400"
+                    ? "border-emerald-300 bg-emerald-50 dark:border-emerald-600 dark:bg-emerald-900/30"
+                    : "border-border bg-card hover:border-muted-foreground"
                 )}
               >
                 {file ? (
                   <div className="flex flex-col items-center gap-3">
-                    <div className="flex h-12 w-12 items-center justify-center rounded-full bg-emerald-100">
-                      <FileSpreadsheet className="h-6 w-6 text-emerald-600" />
+                    <div className="flex h-12 w-12 items-center justify-center rounded-full bg-emerald-100 dark:bg-emerald-900/30">
+                      <FileSpreadsheet className="h-6 w-6 text-emerald-600 dark:text-emerald-400" />
                     </div>
                     <div>
-                      <p className="font-medium text-slate-900">{file.name}</p>
-                      <p className="text-sm text-slate-500">
+                      <p className="font-medium text-foreground">{file.name}</p>
+                      <p className="text-sm text-muted-foreground">
                         {(file.size / 1024).toFixed(2)} KB
                       </p>
                     </div>
@@ -243,7 +243,7 @@ export function ImportModal({ open, onOpenChange }: ImportModalProps) {
                       variant="ghost"
                       size="sm"
                       onClick={() => setFile(null)}
-                      className="text-slate-500"
+                      className="text-muted-foreground"
                     >
                       <X className="mr-1 h-4 w-4" />
                       Remove
@@ -251,14 +251,14 @@ export function ImportModal({ open, onOpenChange }: ImportModalProps) {
                   </div>
                 ) : (
                   <div className="flex flex-col items-center gap-3">
-                    <div className="flex h-12 w-12 items-center justify-center rounded-full bg-slate-100">
-                      <Upload className="h-6 w-6 text-slate-400" />
+                    <div className="flex h-12 w-12 items-center justify-center rounded-full bg-muted">
+                      <Upload className="h-6 w-6 text-muted-foreground" />
                     </div>
                     <div>
-                      <p className="font-medium text-slate-700">
+                      <p className="font-medium text-foreground">
                         Drag and drop your file here
                       </p>
-                      <p className="text-sm text-slate-500">or click to browse</p>
+                      <p className="text-sm text-muted-foreground">or click to browse</p>
                     </div>
                     <input
                       type="file"
@@ -267,11 +267,11 @@ export function ImportModal({ open, onOpenChange }: ImportModalProps) {
                       className="absolute inset-0 cursor-pointer opacity-0"
                     />
                     <div className="flex gap-2">
-                      <Badge variant="secondary" className="bg-slate-100">
+                      <Badge variant="secondary" className="bg-muted">
                         <FileSpreadsheet className="mr-1 h-3 w-3" />
                         CSV
                       </Badge>
-                      <Badge variant="secondary" className="bg-slate-100">
+                      <Badge variant="secondary" className="bg-muted">
                         <FileText className="mr-1 h-3 w-3" />
                         Excel
                       </Badge>
@@ -281,12 +281,12 @@ export function ImportModal({ open, onOpenChange }: ImportModalProps) {
               </div>
 
               {/* Download Template */}
-              <div className="flex items-center justify-between rounded-lg bg-slate-50 p-4">
+              <div className="flex items-center justify-between rounded-lg bg-muted p-4">
                 <div className="flex items-center gap-3">
-                  <HelpCircle className="h-5 w-5 text-slate-400" />
+                  <HelpCircle className="h-5 w-5 text-muted-foreground" />
                   <div>
-                    <p className="font-medium text-slate-700">Need a template?</p>
-                    <p className="text-sm text-slate-500">
+                    <p className="font-medium text-foreground">Need a template?</p>
+                    <p className="text-sm text-muted-foreground">
                       Download our sample file to see the expected format
                     </p>
                   </div>
@@ -301,17 +301,17 @@ export function ImportModal({ open, onOpenChange }: ImportModalProps) {
 
           {step === "mapping" && (
             <div className="space-y-4">
-              <p className="text-sm text-slate-600">
+              <p className="text-sm text-muted-foreground">
                 Map your file columns to the corresponding fields
               </p>
 
               <div className="space-y-3">
                 {Object.entries(columnMappings).map(([col, mapping], index) => (
                   <div key={col} className="flex items-center gap-4">
-                    <div className="w-32 rounded bg-slate-100 px-3 py-2 text-sm font-medium text-slate-600">
+                    <div className="w-32 rounded bg-muted px-3 py-2 text-sm font-medium text-muted-foreground">
                       Column {index + 1}
                     </div>
-                    <ArrowRight className="h-4 w-4 text-slate-400" />
+                    <ArrowRight className="h-4 w-4 text-muted-foreground" />
                     <Select
                       value={mapping}
                       onValueChange={(value) =>
@@ -335,11 +335,11 @@ export function ImportModal({ open, onOpenChange }: ImportModalProps) {
 
               {/* Preview Sample */}
               <div className="mt-4">
-                <p className="mb-2 text-sm font-medium text-slate-700">Sample Data Preview</p>
-                <div className="overflow-x-auto rounded-lg border border-slate-200">
+                <p className="mb-2 text-sm font-medium text-foreground">Sample Data Preview</p>
+                <div className="overflow-x-auto rounded-lg border border-border">
                   <Table>
                     <TableHeader>
-                      <TableRow className="bg-slate-50">
+                      <TableRow className="bg-muted/50">
                         <TableHead className="text-xs">Date</TableHead>
                         <TableHead className="text-xs">Type</TableHead>
                         <TableHead className="text-xs">Ticker</TableHead>
@@ -367,25 +367,25 @@ export function ImportModal({ open, onOpenChange }: ImportModalProps) {
           {step === "preview" && (
             <div className="space-y-4">
               <div className="flex items-center justify-between">
-                <p className="text-sm text-slate-600">
+                <p className="text-sm text-muted-foreground">
                   Review {sampleData.length} transactions before importing
                 </p>
                 <div className="flex gap-2">
-                  <Badge className="bg-emerald-100 text-emerald-700">
+                  <Badge className="bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400">
                     <CheckCircle2 className="mr-1 h-3 w-3" />
                     {sampleData.length} Valid
                   </Badge>
-                  <Badge className="bg-amber-100 text-amber-700">
+                  <Badge className="bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400">
                     <AlertCircle className="mr-1 h-3 w-3" />
                     0 Warnings
                   </Badge>
                 </div>
               </div>
 
-              <div className="max-h-64 overflow-y-auto rounded-lg border border-slate-200">
+              <div className="max-h-64 overflow-y-auto rounded-lg border border-border">
                 <Table>
                   <TableHeader>
-                    <TableRow className="bg-slate-50">
+                    <TableRow className="bg-muted/50">
                       <TableHead className="text-xs">Status</TableHead>
                       <TableHead className="text-xs">Date</TableHead>
                       <TableHead className="text-xs">Type</TableHead>
@@ -398,7 +398,7 @@ export function ImportModal({ open, onOpenChange }: ImportModalProps) {
                     {sampleData.map((row, i) => (
                       <TableRow key={i}>
                         <TableCell>
-                          <CheckCircle2 className="h-4 w-4 text-emerald-500" />
+                          <CheckCircle2 className="h-4 w-4 text-emerald-500 dark:text-emerald-400" />
                         </TableCell>
                         <TableCell className="text-sm">{row.date}</TableCell>
                         <TableCell>
@@ -406,10 +406,10 @@ export function ImportModal({ open, onOpenChange }: ImportModalProps) {
                             variant="secondary"
                             className={cn(
                               row.type === "BUY"
-                                ? "bg-emerald-100 text-emerald-700"
+                                ? "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400"
                                 : row.type === "SELL"
-                                ? "bg-rose-100 text-rose-700"
-                                : "bg-blue-100 text-blue-700"
+                                ? "bg-rose-100 text-rose-700 dark:bg-rose-900/30 dark:text-rose-400"
+                                : "bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400"
                             )}
                           >
                             {row.type}
@@ -434,28 +434,28 @@ export function ImportModal({ open, onOpenChange }: ImportModalProps) {
             <div className="flex flex-col items-center py-6 text-center">
               {importProgress < 100 ? (
                 <>
-                  <div className="mb-4 h-12 w-12 animate-spin rounded-full border-4 border-slate-200 border-t-slate-900" />
-                  <p className="font-medium text-slate-700">Importing transactions...</p>
+                  <div className="mb-4 h-12 w-12 animate-spin rounded-full border-4 border-border border-t-primary" />
+                  <p className="font-medium text-foreground">Importing transactions...</p>
                   <div className="mt-4 w-full max-w-xs">
                     <Progress value={importProgress} className="h-2" />
-                    <p className="mt-2 text-sm text-slate-500">{importProgress}% complete</p>
+                    <p className="mt-2 text-sm text-muted-foreground">{importProgress}% complete</p>
                   </div>
                 </>
               ) : (
                 <>
-                  <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-emerald-100">
-                    <CheckCircle2 className="h-8 w-8 text-emerald-600" />
+                  <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-emerald-100 dark:bg-emerald-900/30">
+                    <CheckCircle2 className="h-8 w-8 text-emerald-600 dark:text-emerald-400" />
                   </div>
-                  <h3 className="text-lg font-semibold text-slate-900">Import Complete!</h3>
-                  <p className="mt-2 text-slate-500">
+                  <h3 className="text-lg font-semibold text-foreground">Import Complete!</h3>
+                  <p className="mt-2 text-muted-foreground">
                     Successfully imported {sampleData.length} transactions
                   </p>
                   <div className="mt-4 flex gap-2">
-                    <Badge className="bg-emerald-100 text-emerald-700">
+                    <Badge className="bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400">
                       {sampleData.length} Added
                     </Badge>
-                    <Badge className="bg-slate-100 text-slate-600">0 Skipped</Badge>
-                    <Badge className="bg-rose-100 text-rose-700">0 Errors</Badge>
+                    <Badge className="bg-muted text-muted-foreground">0 Skipped</Badge>
+                    <Badge className="bg-rose-100 text-rose-700 dark:bg-rose-900/30 dark:text-rose-400">0 Errors</Badge>
                   </div>
                 </>
               )}
@@ -472,7 +472,6 @@ export function ImportModal({ open, onOpenChange }: ImportModalProps) {
               <Button
                 onClick={() => setStep("mapping")}
                 disabled={!file}
-                className="bg-slate-900 text-white hover:bg-slate-800"
               >
                 Continue
                 <ArrowRight className="ml-2 h-4 w-4" />
@@ -486,7 +485,6 @@ export function ImportModal({ open, onOpenChange }: ImportModalProps) {
               </Button>
               <Button
                 onClick={() => setStep("preview")}
-                className="bg-slate-900 text-white hover:bg-slate-800"
               >
                 Continue
                 <ArrowRight className="ml-2 h-4 w-4" />
@@ -500,14 +498,13 @@ export function ImportModal({ open, onOpenChange }: ImportModalProps) {
               </Button>
               <Button
                 onClick={handleStartImport}
-                className="bg-slate-900 text-white hover:bg-slate-800"
               >
                 Import {sampleData.length} Transactions
               </Button>
             </>
           )}
           {step === "complete" && importProgress >= 100 && (
-            <Button onClick={handleClose} className="bg-slate-900 text-white hover:bg-slate-800">
+            <Button onClick={handleClose}>
               Done
             </Button>
           )}

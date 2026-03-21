@@ -100,8 +100,8 @@ export function CreatePortfolioModal({ open, onOpenChange }: CreatePortfolioModa
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-[550px]">
         <DialogHeader>
-          <DialogTitle className="text-xl font-semibold text-slate-900">Create New Portfolio</DialogTitle>
-          <DialogDescription className="text-slate-500">
+          <DialogTitle className="text-xl font-semibold text-foreground">Create New Portfolio</DialogTitle>
+          <DialogDescription className="text-muted-foreground">
             Set up a new portfolio to track your investments
           </DialogDescription>
         </DialogHeader>
@@ -119,18 +119,18 @@ export function CreatePortfolioModal({ open, onOpenChange }: CreatePortfolioModa
                   className={cn(
                     "flex flex-col items-center gap-2 rounded-lg border-2 p-3 text-center transition-colors",
                     portfolioType === type.id
-                      ? "border-slate-900 bg-slate-50"
-                      : "border-slate-200 bg-white hover:border-slate-300"
+                      ? "border-primary bg-muted"
+                      : "border-border bg-card hover:border-muted-foreground"
                   )}
                 >
                   <type.icon className={cn(
                     "h-5 w-5",
-                    portfolioType === type.id ? "text-slate-900" : "text-slate-400"
+                    portfolioType === type.id ? "text-foreground" : "text-muted-foreground"
                   )} />
                   <div>
                     <p className={cn(
                       "text-sm font-medium",
-                      portfolioType === type.id ? "text-slate-900" : "text-slate-600"
+                      portfolioType === type.id ? "text-foreground" : "text-muted-foreground"
                     )}>
                       {type.name}
                     </p>
@@ -209,7 +209,7 @@ export function CreatePortfolioModal({ open, onOpenChange }: CreatePortfolioModa
                 onChange={(e) => setInitialCash(e.target.value)}
               />
               {initialCash && (
-                <p className="text-xs text-slate-500">
+                <p className="text-xs text-muted-foreground">
                   {parseFloat(initialCash).toLocaleString()} {currency}
                 </p>
               )}
@@ -258,7 +258,6 @@ export function CreatePortfolioModal({ open, onOpenChange }: CreatePortfolioModa
           <Button
             onClick={handleSubmit}
             disabled={!name || !code || !portfolioType}
-            className="bg-slate-900 text-white hover:bg-slate-800"
           >
             Create Portfolio
           </Button>

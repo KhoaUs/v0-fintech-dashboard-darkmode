@@ -97,24 +97,24 @@ export function EditPositionModal({ open, onOpenChange, holding, onSave }: EditP
       <Dialog open={open} onOpenChange={onOpenChange}>
         <DialogContent className="sm:max-w-[500px]">
           <DialogHeader>
-            <DialogTitle className="flex items-center gap-2 text-xl font-semibold text-slate-900">
+            <DialogTitle className="flex items-center gap-2 text-xl font-semibold text-foreground">
               <Edit className="h-5 w-5" />
               Edit Position
             </DialogTitle>
-            <DialogDescription className="text-slate-500">
+            <DialogDescription className="text-muted-foreground">
               Manually adjust position details for {holding.ticker}
             </DialogDescription>
           </DialogHeader>
 
           <div className="mt-4 space-y-4">
             {/* Stock Info */}
-            <div className="flex items-center gap-3 rounded-lg bg-slate-50 p-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-slate-900 font-bold text-white">
+            <div className="flex items-center gap-3 rounded-lg bg-muted p-3">
+              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary font-bold text-primary-foreground">
                 {holding.ticker.slice(0, 2)}
               </div>
               <div>
-                <p className="font-semibold text-slate-900">{holding.ticker}</p>
-                <p className="text-sm text-slate-500">{holding.name}</p>
+                <p className="font-semibold text-foreground">{holding.ticker}</p>
+                <p className="text-sm text-muted-foreground">{holding.name}</p>
               </div>
             </div>
 
@@ -129,7 +129,7 @@ export function EditPositionModal({ open, onOpenChange, holding, onSave }: EditP
                   onChange={(e) => setQuantity(e.target.value)}
                   placeholder="0"
                 />
-                <p className="text-xs text-slate-500">
+                <p className="text-xs text-muted-foreground">
                   Original: {holding.quantity.toLocaleString()}
                 </p>
               </div>
@@ -142,7 +142,7 @@ export function EditPositionModal({ open, onOpenChange, holding, onSave }: EditP
                   onChange={(e) => setAvgCost(e.target.value)}
                   placeholder="0"
                 />
-                <p className="text-xs text-slate-500">
+                <p className="text-xs text-muted-foreground">
                   Original: {holding.avgCost.toLocaleString()}
                 </p>
               </div>
@@ -150,21 +150,21 @@ export function EditPositionModal({ open, onOpenChange, holding, onSave }: EditP
 
             {/* Preview Changes */}
             {hasChanges && (
-              <div className="rounded-lg border border-amber-200 bg-amber-50 p-4">
+              <div className="rounded-lg border border-amber-200 bg-amber-50 dark:border-amber-900/50 dark:bg-amber-900/30 p-4">
                 <div className="mb-2 flex items-center gap-2">
-                  <AlertTriangle className="h-4 w-4 text-amber-600" />
-                  <span className="text-sm font-medium text-amber-700">Preview Changes</span>
+                  <AlertTriangle className="h-4 w-4 text-amber-600 dark:text-amber-400" />
+                  <span className="text-sm font-medium text-amber-700 dark:text-amber-400">Preview Changes</span>
                 </div>
                 <div className="grid grid-cols-2 gap-4 text-sm">
                   <div>
-                    <p className="text-slate-500">New Market Value</p>
-                    <p className="font-semibold text-slate-900">
+                    <p className="text-muted-foreground">New Market Value</p>
+                    <p className="font-semibold text-foreground">
                       {(newMarketValue / 1000000000).toFixed(2)}B VND
                     </p>
                   </div>
                   <div>
-                    <p className="text-slate-500">New Unrealized P&L</p>
-                    <p className={`font-semibold ${newUnrealizedPnL >= 0 ? "text-emerald-600" : "text-rose-600"}`}>
+                    <p className="text-muted-foreground">New Unrealized P&L</p>
+                    <p className={`font-semibold ${newUnrealizedPnL >= 0 ? "text-emerald-600 dark:text-emerald-400" : "text-rose-600 dark:text-rose-400"}`}>
                       {newUnrealizedPnL >= 0 ? "+" : ""}{(newUnrealizedPnL / 1000000000).toFixed(2)}B ({newUnrealizedPnLPercent >= 0 ? "+" : ""}{newUnrealizedPnLPercent.toFixed(2)}%)
                     </p>
                   </div>
@@ -191,7 +191,7 @@ export function EditPositionModal({ open, onOpenChange, holding, onSave }: EditP
             </Button>
             <Button
               onClick={handleSave}
-              className="gap-2 bg-slate-900 text-white hover:bg-slate-800"
+              className="gap-2"
             >
               <Save className="h-4 w-4" />
               Save Changes
@@ -210,7 +210,7 @@ export function EditPositionModal({ open, onOpenChange, holding, onSave }: EditP
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <AlertDialogAction onClick={handleConfirmSave} className="bg-slate-900 hover:bg-slate-800">
+            <AlertDialogAction onClick={handleConfirmSave}>
               Confirm Update
             </AlertDialogAction>
           </AlertDialogFooter>

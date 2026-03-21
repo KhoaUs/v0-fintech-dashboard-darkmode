@@ -87,11 +87,11 @@ export function AddCashFlowModal({ open, onOpenChange, onAdd }: AddCashFlowModal
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[500px]">
         <DialogHeader>
-          <DialogTitle className="flex items-center gap-2 text-xl font-semibold text-slate-900">
+          <DialogTitle className="flex items-center gap-2 text-xl font-semibold text-foreground">
             <Wallet className="h-5 w-5" />
             Add Cash Flow
           </DialogTitle>
-          <DialogDescription className="text-slate-500">
+          <DialogDescription className="text-muted-foreground">
             Record a deposit or withdrawal for your portfolio
           </DialogDescription>
         </DialogHeader>
@@ -108,8 +108,8 @@ export function AddCashFlowModal({ open, onOpenChange, onAdd }: AddCashFlowModal
               className={cn(
                 "flex items-center justify-center gap-2 rounded-lg border-2 py-4 font-medium transition-colors",
                 flowType === "deposit"
-                  ? "border-emerald-500 bg-emerald-50 text-emerald-700"
-                  : "border-slate-200 bg-white text-slate-600 hover:border-slate-300"
+                  ? "border-emerald-500 bg-emerald-50 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400"
+                  : "border-border bg-card text-muted-foreground hover:border-muted-foreground"
               )}
             >
               <ArrowUpRight className="h-5 w-5" />
@@ -124,8 +124,8 @@ export function AddCashFlowModal({ open, onOpenChange, onAdd }: AddCashFlowModal
               className={cn(
                 "flex items-center justify-center gap-2 rounded-lg border-2 py-4 font-medium transition-colors",
                 flowType === "withdrawal"
-                  ? "border-rose-500 bg-rose-50 text-rose-700"
-                  : "border-slate-200 bg-white text-slate-600 hover:border-slate-300"
+                  ? "border-rose-500 bg-rose-50 text-rose-700 dark:bg-rose-900/30 dark:text-rose-400"
+                  : "border-border bg-card text-muted-foreground hover:border-muted-foreground"
               )}
             >
               <ArrowDownRight className="h-5 w-5" />
@@ -220,18 +220,18 @@ export function AddCashFlowModal({ open, onOpenChange, onAdd }: AddCashFlowModal
           {amount && (
             <div className={cn(
               "rounded-lg p-4",
-              flowType === "deposit" ? "bg-emerald-50" : "bg-rose-50"
+              flowType === "deposit" ? "bg-emerald-50 dark:bg-emerald-900/30" : "bg-rose-50 dark:bg-rose-900/30"
             )}>
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm text-slate-500">
+                  <p className="text-sm text-muted-foreground">
                     {flowType === "deposit" ? "Deposit Amount" : "Withdrawal Amount"}
                   </p>
-                  <p className="text-xs text-slate-400">{format(date, "MMMM d, yyyy")}</p>
+                  <p className="text-xs text-muted-foreground/70">{format(date, "MMMM d, yyyy")}</p>
                 </div>
                 <p className={cn(
                   "text-2xl font-semibold",
-                  flowType === "deposit" ? "text-emerald-600" : "text-rose-600"
+                  flowType === "deposit" ? "text-emerald-600 dark:text-emerald-400" : "text-rose-600 dark:text-rose-400"
                 )}>
                   {flowType === "deposit" ? "+" : "-"}
                   {(parseFloat(amount) / 1000000).toFixed(0)}M VND

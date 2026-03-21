@@ -80,30 +80,30 @@ export function ClosePositionModal({ open, onOpenChange, holding, onClose }: Clo
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[550px]">
         <DialogHeader>
-          <DialogTitle className="flex items-center gap-2 text-xl font-semibold text-slate-900">
-            <TrendingDown className="h-5 w-5 text-rose-500" />
+          <DialogTitle className="flex items-center gap-2 text-xl font-semibold text-foreground">
+            <TrendingDown className="h-5 w-5 text-rose-500 dark:text-rose-400" />
             Close Position
           </DialogTitle>
-          <DialogDescription className="text-slate-500">
+          <DialogDescription className="text-muted-foreground">
             Sell shares to close your position in {holding.ticker}
           </DialogDescription>
         </DialogHeader>
 
         <div className="mt-4 space-y-4">
           {/* Stock Info */}
-          <div className="flex items-center justify-between rounded-lg bg-slate-50 p-4">
+          <div className="flex items-center justify-between rounded-lg bg-muted p-4">
             <div className="flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-slate-900 font-bold text-white">
+              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary font-bold text-primary-foreground">
                 {holding.ticker.slice(0, 2)}
               </div>
               <div>
-                <p className="font-semibold text-slate-900">{holding.ticker}</p>
-                <p className="text-sm text-slate-500">{holding.name}</p>
+                <p className="font-semibold text-foreground">{holding.ticker}</p>
+                <p className="text-sm text-muted-foreground">{holding.name}</p>
               </div>
             </div>
             <div className="text-right">
-              <p className="text-sm text-slate-500">Current Holdings</p>
-              <p className="font-semibold text-slate-900">{holding.quantity.toLocaleString()} shares</p>
+              <p className="text-sm text-muted-foreground">Current Holdings</p>
+              <p className="font-semibold text-foreground">{holding.quantity.toLocaleString()} shares</p>
             </div>
           </div>
 
@@ -114,29 +114,29 @@ export function ClosePositionModal({ open, onOpenChange, holding, onClose }: Clo
               <div className={cn(
                 "flex cursor-pointer items-center gap-3 rounded-lg border-2 p-4 transition-colors",
                 closeType === "full"
-                  ? "border-rose-500 bg-rose-50"
-                  : "border-slate-200 hover:border-slate-300"
+                  ? "border-rose-500 bg-rose-50 dark:bg-rose-900/30"
+                  : "border-border hover:border-muted-foreground"
               )}>
-                <RadioGroupItem value="full" id="full" className="border-rose-500 text-rose-500" />
+                <RadioGroupItem value="full" id="full" className="border-rose-500 text-rose-500 dark:border-rose-400 dark:text-rose-400" />
                 <div>
-                  <Label htmlFor="full" className="cursor-pointer font-medium text-slate-900">
+                  <Label htmlFor="full" className="cursor-pointer font-medium text-foreground">
                     Full Close
                   </Label>
-                  <p className="text-sm text-slate-500">Sell all {holding.quantity.toLocaleString()} shares</p>
+                  <p className="text-sm text-muted-foreground">Sell all {holding.quantity.toLocaleString()} shares</p>
                 </div>
               </div>
               <div className={cn(
                 "flex cursor-pointer items-center gap-3 rounded-lg border-2 p-4 transition-colors",
                 closeType === "partial"
-                  ? "border-amber-500 bg-amber-50"
-                  : "border-slate-200 hover:border-slate-300"
+                  ? "border-amber-500 bg-amber-50 dark:bg-amber-900/30"
+                  : "border-border hover:border-muted-foreground"
               )}>
-                <RadioGroupItem value="partial" id="partial" className="border-amber-500 text-amber-500" />
+                <RadioGroupItem value="partial" id="partial" className="border-amber-500 text-amber-500 dark:border-amber-400 dark:text-amber-400" />
                 <div>
-                  <Label htmlFor="partial" className="cursor-pointer font-medium text-slate-900">
+                  <Label htmlFor="partial" className="cursor-pointer font-medium text-foreground">
                     Partial Close
                   </Label>
-                  <p className="text-sm text-slate-500">Sell specific quantity</p>
+                  <p className="text-sm text-muted-foreground">Sell specific quantity</p>
                 </div>
               </div>
             </RadioGroup>
@@ -181,7 +181,7 @@ export function ClosePositionModal({ open, onOpenChange, holding, onClose }: Clo
                 onChange={(e) => setSellPrice(e.target.value)}
                 placeholder={holding.currentPrice.toString()}
               />
-              <p className="text-xs text-slate-500">
+              <p className="text-xs text-muted-foreground">
                 Market: {holding.currentPrice.toLocaleString()}
               </p>
             </div>
@@ -224,44 +224,44 @@ export function ClosePositionModal({ open, onOpenChange, holding, onClose }: Clo
                 onChange={(e) => setFees(e.target.value)}
                 className="pr-8"
               />
-              <Percent className="absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+              <Percent className="absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
             </div>
           </div>
 
           {/* Transaction Summary */}
           <div className={cn(
             "rounded-lg p-4",
-            realizedPnL >= 0 ? "bg-emerald-50" : "bg-rose-50"
+            realizedPnL >= 0 ? "bg-emerald-50 dark:bg-emerald-900/30" : "bg-rose-50 dark:bg-rose-900/30"
           )}>
-            <h4 className="mb-3 flex items-center gap-2 font-medium text-slate-900">
+            <h4 className="mb-3 flex items-center gap-2 font-medium text-foreground">
               <DollarSign className="h-4 w-4" />
               Transaction Summary
             </h4>
             <div className="space-y-2 text-sm">
               <div className="flex justify-between">
-                <span className="text-slate-500">Shares to Sell</span>
-                <span className="font-medium text-slate-700">{quantityToSell.toLocaleString()}</span>
+                <span className="text-muted-foreground">Shares to Sell</span>
+                <span className="font-medium text-foreground">{quantityToSell.toLocaleString()}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-slate-500">Gross Proceeds</span>
-                <span className="font-medium text-slate-700">{grossProceeds.toLocaleString()} VND</span>
+                <span className="text-muted-foreground">Gross Proceeds</span>
+                <span className="font-medium text-foreground">{grossProceeds.toLocaleString()} VND</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-slate-500">Fees & Tax ({fees}%)</span>
-                <span className="font-medium text-rose-600">-{feeAmount.toLocaleString()} VND</span>
+                <span className="text-muted-foreground">Fees & Tax ({fees}%)</span>
+                <span className="font-medium text-rose-600 dark:text-rose-400">-{feeAmount.toLocaleString()} VND</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-slate-500">Net Proceeds</span>
-                <span className="font-medium text-slate-700">{netProceeds.toLocaleString()} VND</span>
+                <span className="text-muted-foreground">Net Proceeds</span>
+                <span className="font-medium text-foreground">{netProceeds.toLocaleString()} VND</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-slate-500">Cost Basis</span>
-                <span className="font-medium text-slate-700">{costBasis.toLocaleString()} VND</span>
+                <span className="text-muted-foreground">Cost Basis</span>
+                <span className="font-medium text-foreground">{costBasis.toLocaleString()} VND</span>
               </div>
-              <div className="border-t border-slate-200 pt-2">
+              <div className="border-t border-border pt-2">
                 <div className="flex justify-between font-semibold">
-                  <span className="text-slate-700">Realized P&L</span>
-                  <span className={realizedPnL >= 0 ? "text-emerald-600" : "text-rose-600"}>
+                  <span className="text-foreground">Realized P&L</span>
+                  <span className={realizedPnL >= 0 ? "text-emerald-600 dark:text-emerald-400" : "text-rose-600 dark:text-rose-400"}>
                     {realizedPnL >= 0 ? "+" : ""}{realizedPnL.toLocaleString()} VND ({realizedPnLPercent >= 0 ? "+" : ""}{realizedPnLPercent.toFixed(2)}%)
                   </span>
                 </div>
@@ -270,11 +270,11 @@ export function ClosePositionModal({ open, onOpenChange, holding, onClose }: Clo
           </div>
 
           {/* Warning */}
-          <div className="flex items-start gap-3 rounded-lg border border-amber-200 bg-amber-50 p-3">
-            <AlertTriangle className="mt-0.5 h-5 w-5 text-amber-500" />
+          <div className="flex items-start gap-3 rounded-lg border border-amber-200 bg-amber-50 dark:border-amber-900/50 dark:bg-amber-900/30 p-3">
+            <AlertTriangle className="mt-0.5 h-5 w-5 text-amber-500 dark:text-amber-400" />
             <div className="text-sm">
-              <p className="font-medium text-amber-700">Important</p>
-              <p className="text-amber-600">
+              <p className="font-medium text-amber-700 dark:text-amber-400">Important</p>
+              <p className="text-amber-600 dark:text-amber-400/80">
                 This will record a sell transaction in your portfolio. Make sure the details are correct before proceeding.
               </p>
             </div>

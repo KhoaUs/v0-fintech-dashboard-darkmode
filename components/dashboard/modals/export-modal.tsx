@@ -83,25 +83,25 @@ export function ExportModal({ open, onOpenChange, portfolioName }: ExportModalPr
     <Dialog open={open} onOpenChange={handleClose}>
       <DialogContent className="sm:max-w-[500px]">
         <DialogHeader>
-          <DialogTitle className="flex items-center gap-2 text-xl font-semibold text-slate-900">
+          <DialogTitle className="flex items-center gap-2 text-xl font-semibold text-foreground">
             <Download className="h-5 w-5" />
             Export Portfolio
           </DialogTitle>
-          <DialogDescription className="text-slate-500">
+          <DialogDescription className="text-muted-foreground">
             Download your portfolio data for {portfolioName}
           </DialogDescription>
         </DialogHeader>
 
         {exportComplete ? (
           <div className="flex flex-col items-center py-8 text-center">
-            <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-emerald-100">
-              <CheckCircle2 className="h-8 w-8 text-emerald-600" />
+            <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-emerald-100 dark:bg-emerald-900/30">
+              <CheckCircle2 className="h-8 w-8 text-emerald-600 dark:text-emerald-400" />
             </div>
-            <h3 className="text-lg font-semibold text-slate-900">Export Complete!</h3>
-            <p className="mt-2 text-slate-500">
+            <h3 className="text-lg font-semibold text-foreground">Export Complete!</h3>
+            <p className="mt-2 text-muted-foreground">
               Your file has been downloaded successfully.
             </p>
-            <Button onClick={handleClose} className="mt-6 bg-slate-900 text-white hover:bg-slate-800">
+            <Button onClick={handleClose} className="mt-6">
               Done
             </Button>
           </div>
@@ -115,30 +115,30 @@ export function ExportModal({ open, onOpenChange, portfolioName }: ExportModalPr
                   <div className={cn(
                     "flex cursor-pointer flex-col items-center gap-2 rounded-lg border-2 p-4 transition-colors",
                     exportFormat === "csv"
-                      ? "border-slate-900 bg-slate-50"
-                      : "border-slate-200 hover:border-slate-300"
+                      ? "border-primary bg-muted"
+                      : "border-border hover:border-muted-foreground"
                   )}>
-                    <FileSpreadsheet className={cn("h-6 w-6", exportFormat === "csv" ? "text-slate-900" : "text-slate-400")} />
+                    <FileSpreadsheet className={cn("h-6 w-6", exportFormat === "csv" ? "text-foreground" : "text-muted-foreground")} />
                     <RadioGroupItem value="csv" id="csv" className="sr-only" />
                     <Label htmlFor="csv" className="cursor-pointer text-sm font-medium">CSV</Label>
                   </div>
                   <div className={cn(
                     "flex cursor-pointer flex-col items-center gap-2 rounded-lg border-2 p-4 transition-colors",
                     exportFormat === "xlsx"
-                      ? "border-slate-900 bg-slate-50"
-                      : "border-slate-200 hover:border-slate-300"
+                      ? "border-primary bg-muted"
+                      : "border-border hover:border-muted-foreground"
                   )}>
-                    <FileSpreadsheet className={cn("h-6 w-6", exportFormat === "xlsx" ? "text-slate-900" : "text-slate-400")} />
+                    <FileSpreadsheet className={cn("h-6 w-6", exportFormat === "xlsx" ? "text-foreground" : "text-muted-foreground")} />
                     <RadioGroupItem value="xlsx" id="xlsx" className="sr-only" />
                     <Label htmlFor="xlsx" className="cursor-pointer text-sm font-medium">Excel</Label>
                   </div>
                   <div className={cn(
                     "flex cursor-pointer flex-col items-center gap-2 rounded-lg border-2 p-4 transition-colors",
                     exportFormat === "pdf"
-                      ? "border-slate-900 bg-slate-50"
-                      : "border-slate-200 hover:border-slate-300"
+                      ? "border-primary bg-muted"
+                      : "border-border hover:border-muted-foreground"
                   )}>
-                    <FileText className={cn("h-6 w-6", exportFormat === "pdf" ? "text-slate-900" : "text-slate-400")} />
+                    <FileText className={cn("h-6 w-6", exportFormat === "pdf" ? "text-foreground" : "text-muted-foreground")} />
                     <RadioGroupItem value="pdf" id="pdf" className="sr-only" />
                     <Label htmlFor="pdf" className="cursor-pointer text-sm font-medium">PDF</Label>
                   </div>
@@ -236,7 +236,7 @@ export function ExportModal({ open, onOpenChange, portfolioName }: ExportModalPr
               <Button
                 onClick={handleExport}
                 disabled={isExporting || selectedCount === 0}
-                className="gap-2 bg-slate-900 text-white hover:bg-slate-800"
+                className="gap-2"
               >
                 {isExporting ? (
                   <>
