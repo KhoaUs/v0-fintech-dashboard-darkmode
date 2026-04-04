@@ -64,7 +64,8 @@ async function getUser(email: string) {
   return DEMO_USERS[email as keyof typeof DEMO_USERS] || null
 }
 
-export const { auth, signIn, signOut } = NextAuth({
+const handler = NextAuth({
+  secret: process.env.NEXTAUTH_SECRET || 'dev-secret-key-change-in-production',
   pages: {
     signIn: '/login',
   },
@@ -124,4 +125,9 @@ export const { auth, signIn, signOut } = NextAuth({
     }),
   ],
 })
+
+export const { GET, POST } = handler
+export const auth = handler
+export const signIn = handler.signIn
+export const signOut = handler.signOut
 
