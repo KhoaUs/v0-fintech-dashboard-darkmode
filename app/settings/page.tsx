@@ -1,19 +1,88 @@
 "use client"
 
 import { currentUser } from '@/lib/mock-data'
+import { useState } from 'react'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Button } from '@/components/ui/button'
-import { ArrowLeft, Lock, Bell, Users, Database } from 'lucide-react'
+import { ArrowLeft, Lock, Users, Database, Settings as SettingsIcon } from 'lucide-react'
 import Link from 'next/link'
+import { AdminHeader } from '@/components/admin/admin-header'
+import { OrganizationsTab } from '@/components/admin/organizations-tab'
+import { UsersTab } from '@/components/admin/users-tab'
+import { TeamsTab } from '@/components/admin/teams-tab'
+
+// Mock data for demo
+const mockOrganizations = [
+  {
+    id: 'org-1',
+    name: 'Tech Growth Fund',
+    description: 'Professional technology investment fund',
+    website: 'https://techgrowth.fund',
+    member_count: 5,
+    portfolio_count: 8,
+    created_at: '2024-01-15',
+  },
+]
+
+const mockUsers = [
+  {
+    id: 'user-admin',
+    email: 'admin@techgrowth.fund',
+    name: 'Admin User',
+    role: 'admin',
+    organization_name: 'Tech Growth Fund',
+    created_at: '2024-01-15',
+  },
+  {
+    id: 'user-john',
+    email: 'john@techgrowth.fund',
+    name: 'John Leader',
+    role: 'team_leader',
+    organization_name: 'Tech Growth Fund',
+    created_at: '2024-01-20',
+  },
+  {
+    id: 'user-alice',
+    email: 'alice@techgrowth.fund',
+    name: 'Alice Owner',
+    role: 'account_owner',
+    organization_name: 'Tech Growth Fund',
+    created_at: '2024-01-22',
+  },
+]
+
+const mockTeams = [
+  {
+    id: 'team-1',
+    name: 'Growth Tech Investments',
+    organization_name: 'Tech Growth Fund',
+    leader_name: 'John Leader',
+    member_count: 3,
+    portfolio_count: 2,
+    created_at: '2024-01-20',
+  },
+  {
+    id: 'team-2',
+    name: 'SaaS Portfolio',
+    organization_name: 'Tech Growth Fund',
+    leader_name: 'John Leader',
+    member_count: 2,
+    portfolio_count: 2,
+    created_at: '2024-01-22',
+  },
+]
 
 export default function SettingsPage() {
+  const [activeTab, setActiveTab] = useState('organizations')
+
   // Only admins can access this page
   if (currentUser.role !== 'admin') {
     return (
-      <div className="min-h-screen bg-neutral-50 flex items-center justify-center">
+      <div className="min-h-screen bg-background flex items-center justify-center">
         <div className="text-center">
-          <Lock className="w-12 h-12 text-red-500 mx-auto mb-4" />
-          <h1 className="text-2xl font-bold text-neutral-900 mb-2">Access Denied</h1>
-          <p className="text-neutral-600 mb-6">Only administrators can access system settings.</p>
+          <Lock className="w-12 h-12 text-destructive mx-auto mb-4" />
+          <h1 className="text-2xl font-bold text-foreground mb-2">Access Denied</h1>
+          <p className="text-muted-foreground mb-6">Only administrators can access system settings.</p>
           <Link href="/">
             <Button>Go Back Home</Button>
           </Link>
@@ -22,85 +91,51 @@ export default function SettingsPage() {
     )
   }
 
-  const settings = [
-    {
-      title: 'Organization',
-      description: 'Manage organization details, name, and metadata',
-      icon: Users,
-      href: '#organization',
-    },
-    {
-      title: 'Database',
-      description: 'Configure database connections and backups',
-      icon: Database,
-      href: '#database',
-    },
-    {
-      title: 'Notifications',
-      description: 'Email alerts, notifications, and system messages',
-      icon: Bell,
-      href: '#notifications',
-    },
-    {
-      title: 'Security',
-      description: 'API keys, permissions, and access control',
-      icon: Lock,
-      href: '#security',
-    },
-  ]
-
   return (
-    <div className="min-h-screen bg-neutral-50">
-      {/* Header */}
-      <div className="border-b border-neutral-200 bg-white">
-        <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-          <Link
-            href="/"
-            className="flex items-center gap-2 text-blue-600 hover:text-blue-700 mb-4 text-sm font-medium"
-          >
-            <ArrowLeft className="w-4 h-4" />
-            Back to Home
-          </Link>
-          <h1 className="text-3xl font-bold text-neutral-900">System Settings</h1>
-          <p className="text-neutral-500 mt-2">Manage system-wide configurations and settings</p>
-        </div>
-      </div>
+    <main className="flex-1 bg-background min-h-screen">
+      <AdminHeader />
 
-      {/* Settings Grid */}
-      <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {settings.map((setting, idx) => {
-            const Icon = setting.icon
-            return (
-              <a
-                key={idx}
-                href={setting.href}
-                className="group block p-6 rounded-lg border border-neutral-200 bg-white hover:shadow-md transition-all"
-              >
-                <div className="flex items-start gap-4">
-                  <div className="rounded-lg p-3 bg-blue-100 group-hover:bg-blue-200 transition-colors">
-                    <Icon className="w-6 h-6 text-blue-700" />
-                  </div>
-                  <div className="flex-1">
-                    <h3 className="font-semibold text-neutral-900 group-hover:text-blue-600 transition-colors">
-                      {setting.title}
-                    </h3>
-                    <p className="text-sm text-neutral-600 mt-1">{setting.description}</p>
-                  </div>
-                </div>
-              </a>
-            )
-          })}
-        </div>
+      <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+        {/* Navigation Tabs */}
+        <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+          <TabsList className="grid w-full max-w-md grid-cols-3 bg-muted">
+            <TabsTrigger value="organizations" className="gap-2">
+              <Users className="w-4 h-4" />
+              <span className="hidden sm:inline">Organizations</span>
+            </TabsTrigger>
+            <TabsTrigger value="users" className="gap-2">
+              <SettingsIcon className="w-4 h-4" />
+              <span className="hidden sm:inline">Users</span>
+            </TabsTrigger>
+            <TabsTrigger value="teams" className="gap-2">
+              <Database className="w-4 h-4" />
+              <span className="hidden sm:inline">Teams</span>
+            </TabsTrigger>
+          </TabsList>
 
-        {/* Coming Soon Notice */}
-        <div className="mt-12 p-6 rounded-lg bg-amber-50 border border-amber-200">
-          <p className="text-sm text-amber-900">
-            <strong>Note:</strong> These settings pages are currently under development. Full configuration
-            interface will be available after database integration and Auth.js setup.
+          {/* Organizations Tab */}
+          <TabsContent value="organizations" className="mt-6">
+            <OrganizationsTab organizations={mockOrganizations} />
+          </TabsContent>
+
+          {/* Users Tab */}
+          <TabsContent value="users" className="mt-6">
+            <UsersTab users={mockUsers} />
+          </TabsContent>
+
+          {/* Teams Tab */}
+          <TabsContent value="teams" className="mt-6">
+            <TeamsTab teams={mockTeams} />
+          </TabsContent>
+        </Tabs>
+
+        {/* Info Notice */}
+        <div className="mt-12 p-6 rounded-lg bg-accent/5 border border-accent/20">
+          <p className="text-sm text-foreground">
+            <strong>Database Integration:</strong> This admin console is currently displaying mock data. After connecting to your PostgreSQL database (Supabase/Neon), these tables will display real data. See DATABASE_INTEGRATION.md for setup instructions.
           </p>
         </div>
-      </main>
-    </div>
+      </div>
+    </main>
   )
 }

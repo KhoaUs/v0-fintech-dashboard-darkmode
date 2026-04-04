@@ -13,25 +13,29 @@ export function OrgSummaryStrip({ organization }: OrgSummaryStripProps) {
       label: 'Total AUM',
       value: formatCurrency(organization.totalAUM),
       icon: Briefcase,
-      color: 'bg-blue-100 text-blue-700',
+      colorBg: 'bg-accent/5',
+      colorIcon: 'bg-accent/10 text-accent',
     },
     {
       label: 'Total Return',
       value: formatPercent(organization.totalReturn),
       icon: TrendingUp,
-      color: 'bg-green-100 text-green-700',
+      colorBg: 'bg-chart-1/5',
+      colorIcon: 'bg-chart-1/10 text-chart-1',
     },
     {
       label: 'Portfolios',
       value: organization.portfolioCount.toString(),
       icon: PieChart,
-      color: 'bg-purple-100 text-purple-700',
+      colorBg: 'bg-chart-2/5',
+      colorIcon: 'bg-chart-2/10 text-chart-2',
     },
     {
       label: 'Team Members',
       value: organization.teamMemberCount.toString(),
       icon: Users,
-      color: 'bg-orange-100 text-orange-700',
+      colorBg: 'bg-chart-3/5',
+      colorIcon: 'bg-chart-3/10 text-chart-3',
     },
   ]
 
@@ -42,18 +46,18 @@ export function OrgSummaryStrip({ organization }: OrgSummaryStripProps) {
         return (
           <div
             key={idx}
-            className="rounded-lg border border-neutral-200 bg-white p-6 shadow-sm"
+            className={`rounded-lg border border-border ${kpi.colorBg} p-6 shadow-sm transition-all duration-300 hover:shadow-md`}
           >
             <div className="flex items-start justify-between">
               <div className="flex-1">
-                <p className="text-sm font-medium text-neutral-600 mb-1">
+                <p className="text-sm font-medium text-muted-foreground mb-2">
                   {kpi.label}
                 </p>
-                <p className="text-2xl font-bold text-neutral-900">
+                <p className="text-2xl font-bold text-foreground">
                   {kpi.value}
                 </p>
               </div>
-              <div className={`rounded-lg p-2.5 ${kpi.color}`}>
+              <div className={`rounded-lg p-3 flex-shrink-0 ${kpi.colorIcon}`}>
                 <Icon className="w-5 h-5" />
               </div>
             </div>

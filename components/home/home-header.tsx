@@ -17,22 +17,22 @@ export function HomeHeader({ user, organization }: HomeHeaderProps) {
   const canAccessSettings = user.role === 'admin'
 
   return (
-    <div className="border-b border-neutral-200 bg-white">
-      <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+    <div className="border-b border-border bg-card">
+      <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
         {/* Top Section - Org Name and User */}
-        <div className="flex items-center justify-between mb-4">
+        <div className="flex items-center justify-between mb-6">
           <div>
-            <h1 className="text-3xl font-bold text-neutral-900">
+            <h1 className="text-3xl font-bold text-foreground">
               {organization.name}
             </h1>
-            <p className="text-sm text-neutral-500 mt-1">
+            <p className="text-sm text-muted-foreground mt-2">
               {organization.description}
             </p>
           </div>
           <div className="flex items-center gap-3">
             <div className="text-right">
-              <p className="text-sm font-medium text-neutral-900">{user.name}</p>
-              <p className="text-xs text-neutral-500 capitalize">
+              <p className="text-sm font-medium text-foreground">{user.name}</p>
+              <p className="text-xs text-muted-foreground capitalize">
                 {user.role.replace(/_/g, ' ')}
               </p>
             </div>
@@ -40,16 +40,16 @@ export function HomeHeader({ user, organization }: HomeHeaderProps) {
               <img
                 src={user.avatar}
                 alt={user.name}
-                className="w-10 h-10 rounded-full"
+                className="w-10 h-10 rounded-full border-2 border-border"
               />
             )}
           </div>
         </div>
 
         {/* Action Buttons */}
-        <div className="flex gap-3">
+        <div className="flex gap-3 flex-wrap">
           {canCreatePortfolio && (
-            <Button className="gap-2 bg-blue-600 hover:bg-blue-700 text-white">
+            <Button className="gap-2 bg-primary hover:bg-primary/90 text-primary-foreground font-medium">
               <Plus className="w-4 h-4" />
               New Portfolio
             </Button>
@@ -57,7 +57,7 @@ export function HomeHeader({ user, organization }: HomeHeaderProps) {
           {canManageTeam && (
             <Button
               variant="outline"
-              className="gap-2 border-neutral-300 text-neutral-900 hover:bg-neutral-50"
+              className="gap-2 border-border text-foreground hover:bg-muted"
             >
               <Users className="w-4 h-4" />
               Manage Team
@@ -66,7 +66,7 @@ export function HomeHeader({ user, organization }: HomeHeaderProps) {
           {canAccessSettings && (
             <Button
               variant="outline"
-              className="gap-2 border-neutral-300 text-neutral-900 hover:bg-neutral-50"
+              className="gap-2 border-border text-foreground hover:bg-muted"
             >
               <Settings className="w-4 h-4" />
               System Settings

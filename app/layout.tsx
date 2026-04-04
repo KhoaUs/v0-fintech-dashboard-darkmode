@@ -4,6 +4,7 @@ import { Analytics } from '@vercel/analytics/next'
 import { ThemeProvider } from '@/components/theme-provider'
 import { Sidebar } from '@/components/navigation/sidebar'
 import { currentUser } from '@/lib/mock-data'
+import { SessionProvider } from 'next-auth/react'
 import './globals.css'
 
 const _geist = Geist({ subsets: ["latin"] });
@@ -40,19 +41,21 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className="font-sans antialiased">
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <div className="flex">
-            <Sidebar user={currentUser} />
-            <div className="flex-1">
-              {children}
+        <SessionProvider>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <div className="flex">
+              <Sidebar user={currentUser} />
+              <div className="flex-1">
+                {children}
+              </div>
             </div>
-          </div>
-        </ThemeProvider>
+          </ThemeProvider>
+        </SessionProvider>
         <Analytics />
       </body>
     </html>
