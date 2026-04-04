@@ -1,8 +1,6 @@
 import NextAuth from 'next-auth'
 import Credentials from 'next-auth/providers/credentials'
-import { authConfig } from './auth.config'
 import { z } from 'zod'
-import bcrypt from 'bcrypt'
 
 // Define the shape of our user
 declare module 'next-auth' {
@@ -25,51 +23,76 @@ const LoginSchema = z.object({
   password: z.string().min(6, 'Password must be at least 6 characters'),
 })
 
-async function getUser(email: string) {
-  // This is a placeholder. In production, query the database
-  // For now, return mock users for testing
-  const users: Record<string, any> = {
-    'admin@techgrowth.fund': {
-      id: 'user-admin',
-      email: 'admin@techgrowth.fund',
-      name: 'Admin User',
-      role: 'admin',
-      org_id: 'org-1',
-      password_hash: await bcrypt.hash('password123', 10),
-    },
-    'john@techgrowth.fund': {
-      id: 'user-john',
-      email: 'john@techgrowth.fund',
-      name: 'John Leader',
-      role: 'team_leader',
-      org_id: 'org-1',
-      password_hash: await bcrypt.hash('password123', 10),
-    },
-    'alice@techgrowth.fund': {
-      id: 'user-alice',
-      email: 'alice@techgrowth.fund',
-      name: 'Alice Owner',
-      role: 'account_owner',
-      org_id: 'org-1',
-      password_hash: await bcrypt.hash('password123', 10),
-    },
-    'bob@techgrowth.fund': {
-      id: 'user-bob',
-      email: 'bob@techgrowth.fund',
-      name: 'Bob Customer',
-      role: 'customer',
-      org_id: 'org-1',
-      password_hash: await bcrypt.hash('password123', 10),
-    },
-  }
+// Mock user database for demo
+// In production, this would query your database
+const DEMO_USERS = {
+  'admin@techgrowth.fund': {
+    id: 'user-admin',
+    email: 'admin@techgrowth.fund',
+    name: 'Admin User',
+    role: 'admin',
+    org_id: 'org-1',
+    password: 'password123',
+  },
+  'john@techgrowth.fund': {
+    id: 'user-john',
+    email: 'john@techgrowth.fund',
+    name: 'John Leader',
+    role: 'team_leader',
+    org_id: 'org-1',
+    password: 'password123',
+  },
+  'alice@techgrowth.fund': {
+    id: 'user-alice',
+    email: 'alice@techgrowth.fund',
+    name: 'Alice Owner',
+    role: 'account_owner',
+    org_id: 'org-1',
+    password: 'password123',
+  },
+  'bob@techgrowth.fund': {
+    id: 'user-bob',
+    email: 'bob@techgrowth.fund',
+    name: 'Bob Customer',
+    role: 'customer',
+    org_id: 'org-1',
+    password: 'password123',
+  },
+} as const
 
-  return users[email] || null
+async function getUser(email: string) {
+  return DEMO_USERS[email as keyof typeof DEMO_USERS] || null
 }
 
 export const { auth, signIn, signOut } = NextAuth({
-  ...authConfig,
+  pages: {
+    signIn: '/login',
+  },
+  callbacks: {
+    async jwt({ token, user }) {
+      if (user) {
+        token.id = user.id
+        token.role = user.role
+        token.org_id = user.org_id
+      }
+      return token
+    },
+    async session({ session, token }) {
+      if (session.user) {
+        session.user.id = token.id as string
+        session.user.role = token.role as any
+        session.user.org_id = token.org_id as string
+      }
+      return session
+    },
+  },
   providers: [
     Credentials({
+      name: 'Credentials',
+      credentials: {
+        email: { label: 'Email', type: 'email' },
+        password: { label: 'Password', type: 'password' },
+      },
       async authorize(credentials) {
         const validatedFields = LoginSchema.safeParse(credentials)
 
@@ -84,14 +107,12 @@ export const { auth, signIn, signOut } = NextAuth({
           return null
         }
 
-        // Verify password
-        const passwordsMatch = await bcrypt.compare(password, user.password_hash)
-
-        if (!passwordsMatch) {
+        // Simple password check for demo (in production, use bcrypt on server)
+        if (password !== user.password) {
           return null
         }
 
-        // Return user data without password hash
+        // Return user data
         return {
           id: user.id,
           email: user.email,
@@ -102,22 +123,5 @@ export const { auth, signIn, signOut } = NextAuth({
       },
     }),
   ],
-  callbacks: {
-    async jwt({ token, user }) {
-      if (user) {
-        token.id = user.id
-        token.role = user.role
-        token.org_id = user.org_id
-      }
-      return token
-    },
-    async session({ session, token }) {
-      if (session.user) {
-        session.user.id = token.id as string
-        session.user.role = token.role as string
-        session.user.org_id = token.org_id as string
-      }
-      return session
-    },
-  },
 })
+
