@@ -622,7 +622,7 @@ export function getPortfolioHoldings(portfolioId: string): AssetHolding[] {
 
 // Get transactions for a portfolio
 export function getPortfolioTransactions(portfolioId: string): Transaction[] {
-  return mockTransactions.filter(t => t.portfolioId === portfolioId).sort((a, b) => 
+  return mockTransactions.filter(t => t.portfolioId === portfolioId).sort((a, b) =>
     new Date(b.date).getTime() - new Date(a.date).getTime()
   )
 }

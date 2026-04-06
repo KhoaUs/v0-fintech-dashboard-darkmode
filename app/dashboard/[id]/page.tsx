@@ -4,10 +4,14 @@ import { DashboardHeader } from "@/components/dashboard/dashboard-header"
 import { KPIStrip } from "@/components/dashboard/kpi-strip"
 import { DashboardTabs } from "@/components/dashboard/dashboard-tabs"
 import { mockPortfolios } from "@/lib/mock-data"
+import { use } from "react"
 
-export default function PortfolioDashboardPage({ params }: { params: { id: string } }) {
+export default function PortfolioDashboardPage({ params }: { params: Promise<{ id: string }> }) {
+  // Unwrap the Promise using React.use() in client components
+  const { id } = use(params)
+  
   // In a real app, this would fetch the portfolio by ID from the database
-  const portfolio = mockPortfolios.find(p => p.id === params.id)
+  const portfolio = mockPortfolios.find(p => p.id === id)
 
   if (!portfolio) {
     return (
@@ -32,3 +36,4 @@ export default function PortfolioDashboardPage({ params }: { params: { id: strin
     </div>
   )
 }
+
