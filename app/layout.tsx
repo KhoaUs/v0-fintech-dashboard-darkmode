@@ -2,6 +2,8 @@ import type { Metadata } from 'next'
 import { Geist, Geist_Mono } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
 import { ThemeProvider } from '@/components/theme-provider'
+import { Sidebar } from '@/components/navigation/sidebar'
+import { currentUser } from '@/lib/mock-data'
 import './globals.css'
 
 const _geist = Geist({ subsets: ["latin"] });
@@ -44,7 +46,12 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          {children}
+          <div className="flex">
+            <Sidebar user={currentUser} />
+            <div className="flex-1">
+              {children}
+            </div>
+          </div>
         </ThemeProvider>
         <Analytics />
       </body>
