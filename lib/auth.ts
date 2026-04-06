@@ -2,6 +2,19 @@ import NextAuth from 'next-auth'
 import Credentials from 'next-auth/providers/credentials'
 import { z } from 'zod'
 
+// Generate a consistent secret for development if not provided
+const getSecret = () => {
+  if (process.env.NEXTAUTH_SECRET) {
+    return process.env.NEXTAUTH_SECRET
+  }
+  // Use a consistent secret for development
+  if (process.env.NODE_ENV === 'development') {
+    return 'tech-fund-development-secret-key-12345'
+  }
+  // Require secret in production
+  throw new Error('NEXTAUTH_SECRET must be set in production')
+}
+
 // Define the shape of our user
 declare module 'next-auth' {
   interface User {
@@ -65,7 +78,8 @@ async function getUser(email: string) {
 }
 
 const handler = NextAuth({
-  secret: process.env.NEXTAUTH_SECRET || 'dev-secret-key-change-in-production',
+  secret: getSecret(),
+  trustHost: true,
   pages: {
     signIn: '/login',
   },
