@@ -8,6 +8,7 @@ import { CashFlowsTab } from "./tabs/cash-flows-tab"
 import { PerformanceTab } from "./tabs/performance-tab"
 import { AllocationTab } from "./tabs/allocation-tab"
 import { SettingsTab } from "./tabs/settings-tab"
+import { TradingSettingsTab } from "@/components/trading/trading-settings-tab"
 
 export function DashboardTabs() {
   return (
@@ -50,6 +51,12 @@ export function DashboardTabs() {
           Allocation
         </TabsTrigger>
         <TabsTrigger
+          value="trading"
+          className="rounded-none border-b-2 border-transparent px-4 py-2.5 text-sm font-medium text-muted-foreground data-[state=active]:border-foreground data-[state=active]:bg-transparent data-[state=active]:text-foreground data-[state=active]:shadow-none"
+        >
+          Trading
+        </TabsTrigger>
+        <TabsTrigger
           value="settings"
           className="rounded-none border-b-2 border-transparent px-4 py-2.5 text-sm font-medium text-muted-foreground data-[state=active]:border-foreground data-[state=active]:bg-transparent data-[state=active]:text-foreground data-[state=active]:shadow-none"
         >
@@ -73,6 +80,9 @@ export function DashboardTabs() {
       </TabsContent>
       <TabsContent value="allocation" className="mt-0">
         <AllocationTab />
+      </TabsContent>
+      <TabsContent value="trading" className="mt-0">
+        <TradingSettingsTab />
       </TabsContent>
       <TabsContent value="settings" className="mt-0">
         <SettingsTab />
